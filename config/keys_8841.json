@@ -1,0 +1,57 @@
+{
+    "line_keys_left": {
+        "Line 1": "Key:Line1",
+        "Line 2": "Key:Line2",
+        "Line 3": "Key:Line3",
+        "Line 4": "Key:Line4",
+        "Line 5": "Key:Line5"
+    },
+    "line_keys_right": {
+        "Sess 1": "Key:Session1",
+        "Sess 2": "Key:Session2",
+        "Sess 3": "Key:Session3",
+        "Sess 4": "Key:Session4",
+        "Sess 5": "Key:Session5"
+    },
+    "softkeys": {
+        "Soft 1": "Key:Soft1",
+        "Soft 2": "Key:Soft2",
+        "Soft 3": "Key:Soft3",
+        "Soft 4": "Key:Soft4"
+    },
+    "telephony_keys": {
+        "HOLD": "Key:Hold",
+        "TRANSFER": "Key:Transfer",
+        "CONFRN": "Key:Conference",
+        "RELEASE": "Key:Release"
+    },
+    "app_keys": {
+        "MESSAGES": "Key:Messages",
+        "CONTACTS": "Key:Directories",
+        "APPS": "Key:Applications",
+        "BACK": "Key:NavBack",
+        "VOL_UP": "Key:VolUp",
+        "VOL_DOWN": "Key:VolDwn"
+    },
+    "nav_keys": {
+        "Up": "Key:NavUp",
+        "Down": "Key:NavDown",
+        "Left": "Key:NavLeft",
+        "Right": "Key:NavRight",
+        "Select": "Key:NavSelect"
+    },
+    "keypad": {
+        "1": "Key:KeyPad1",
+        "2": "Key:KeyPad2",
+        "3": "Key:KeyPad3",
+        "4": "Key:KeyPad4",
+        "5": "Key:KeyPad5",
+        "6": "Key:KeyPad6",
+        "7": "Key:KeyPad7",
+        "8": "Key:KeyPad8",
+        "9": "Key:KeyPad9",
+        "*": "Key:KeyPadStar",
+        "0": "Key:KeyPad0",
+        "#": "Key:KeyPadPound"
+    }
+}

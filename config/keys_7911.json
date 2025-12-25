@@ -1,0 +1,27 @@
+{
+    "app_keys": {
+        "HOLD": "Key:Hold",
+        "MENU": "Key:Settings",
+        "VOL_UP": "Key:VolUp",
+        "VOL_DOWN": "Key:VolDwn"
+    },
+    "nav_keys": {
+        "Up": "Key:NavUp",
+        "Down": "Key:NavDown",
+        "Select": "Key:NavSelect"
+    },
+    "keypad": {
+        "1": "Key:KeyPad1",
+        "2": "Key:KeyPad2",
+        "3": "Key:KeyPad3",
+        "4": "Key:KeyPad4",
+        "5": "Key:KeyPad5",
+        "6": "Key:KeyPad6",
+        "7": "Key:KeyPad7",
+        "8": "Key:KeyPad8",
+        "9": "Key:KeyPad9",
+        "*": "Key:KeyPadStar",
+        "0": "Key:KeyPad0",
+        "#": "Key:KeyPadPound"
+    }
+}
