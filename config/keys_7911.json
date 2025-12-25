@@ -23,5 +23,11 @@
         "*": "Key:KeyPadStar",
         "0": "Key:KeyPad0",
         "#": "Key:KeyPadPound"
+    },
+        "softkeys": {
+        "Soft 1": "Key:Soft1",
+        "Soft 2": "Key:Soft2",
+        "Soft 3": "Key:Soft3",
+        "Soft 4": "Key:Soft4"
     }
 }

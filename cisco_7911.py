@@ -12,6 +12,14 @@ class Cisco7911Phone(CiscoBasePhone):
         sf = tk.Frame(top_f, bg="#121212", bd=2, relief="sunken"); sf.grid(row=0, column=0, padx=5)
         self.screen_canvas = tk.Canvas(sf, width=self.screen_w, height=self.screen_h, bg="black", highlightthickness=0); self.screen_canvas.pack()
         
+        # Softkeys
+        skf = tk.Frame(self.main_container, bg="#121212"); skf.pack(pady=5)
+        for l, u in self.config.get('softkeys', {}).items():
+            tk.Button(skf, text=l.upper(), width=10, bg="#34495e", fg="#00d2ff", relief="flat", 
+                      font=("Segoe UI", 7, "bold"), activebackground="#2c3e50", 
+                      command=lambda x=u: self.press(x)).pack(side="left", padx=2)
+
+        
         # Dial/Control Section
         mid_f = tk.Frame(self.main_container, bg="#121212"); mid_f.pack(pady=10)
         ak = self.config.get('app_keys', {})

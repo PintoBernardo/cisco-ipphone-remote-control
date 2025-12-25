@@ -1,0 +1,1 @@
+pyinstaller --noconfirm --onefile --windowed --name "CiscoRemoteControl" --icon="icon.ico" --add-data "icon.ico;." --add-data "cisco_core.py;." --add-data "cisco_8841.py;." --add-data "cisco_7911.py;." --add-data "cisco_7945.py;." --add-data "config;config" main.py

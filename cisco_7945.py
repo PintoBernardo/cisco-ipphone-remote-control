@@ -18,9 +18,9 @@ class Cisco7945Phone(CiscoBasePhone):
             tk.Button(lk_f, text="●", width=3, bg="#2a2a2a", fg="#27ae60", relief="flat", activebackground="#333",
                       command=lambda x=u: self.press(x), pady=7).pack(pady=15)
         
-        # Softkeys (Limited to 2)
+        # Softkeys
         skf = tk.Frame(self.main_container, bg="#121212"); skf.pack(pady=10)
-        soft_keys = list(self.config.get('softkeys', {}).items())[:2]
+        soft_keys = list(self.config.get('softkeys', {}).items())
         for l, u in soft_keys:
             tk.Button(skf, text=l.upper(), width=14, bg="#34495e", fg="#00d2ff", relief="flat", 
                       font=("Segoe UI", 8, "bold"), activebackground="#2c3e50", 
