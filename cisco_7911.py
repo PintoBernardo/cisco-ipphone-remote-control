@@ -6,7 +6,15 @@ class Cisco7911Phone(CiscoBasePhone):
         self.screen_w, self.screen_h = 192, 64
 
     def build_ui(self):
-        top_f = tk.Frame(self.main_container, bg="#121212"); top_f.pack(pady=10)
+        self.top_container = tk.Frame(self.main_container, bg="#121212")
+        self.top_container.pack(fill="x", pady=10)
+        
+        self.voicemail_canvas = tk.Canvas(self.top_container, width=20, height=20, bg="#121212", highlightthickness=0)
+        self.voicemail_canvas.pack(side="left", padx=5)
+        self.circle_id = self.voicemail_canvas.create_oval(2, 2, 18, 18, fill="yellow")
+        
+        top_f = tk.Frame(self.top_container, bg="#121212")
+        top_f.pack(side="left", padx=5)
         
         # Screen
         sf = tk.Frame(top_f, bg="#121212", bd=2, relief="sunken"); sf.grid(row=0, column=0, padx=5)

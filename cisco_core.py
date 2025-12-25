@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from datetime import datetime
 import tkinter as tk
 from tkinter import scrolledtext, messagebox  # FIXED: Added missing imports
+import xml.etree.ElementTree as ET
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -73,6 +74,7 @@ class CiscoBasePhone(tk.Toplevel):
             self.destroy()
             return
         self.build_ui()
+        self.check_voicemail()
         self.add_log("system", f"Started Remote Control for {self.phone_ip}")
         self.refresh_loop()
         self.refresh_screen()
@@ -158,9 +160,9 @@ class CiscoBasePhone(tk.Toplevel):
                 with open(cgi_conf_path, 'r') as f:
                     return json.load(f)
             except:
-                return {"default": {"user": "admin_admin", "pass": "alka"}}
+                return {"default": {"user": "admin", "pass": "admin"}}
         else:
-            return {"default": {"user": "admin_admin", "pass": "alka"}}
+            return {"default": {"user": "admin", "pass": "admin"}}
 
     def setup_ssh(self):
         if self.connection_mode == "local":
@@ -203,6 +205,7 @@ class CiscoBasePhone(tk.Toplevel):
         if self.is_refreshing: return
         self.waiting_for_image = True 
         threading.Thread(target=self._fetch_image_thread, daemon=True).start()
+        self.check_voicemail()
 
     def _fetch_image_thread(self):
         self.is_refreshing = True
@@ -246,6 +249,30 @@ class CiscoBasePhone(tk.Toplevel):
         self.phone_display = photo
         if hasattr(self, 'screen_canvas') and self.screen_canvas.winfo_exists():
             self.screen_canvas.create_image(0, 0, anchor="nw", image=self.phone_display)
+
+    def check_voicemail(self):
+        threading.Thread(target=self._check_voicemail_thread, daemon=True).start()
+
+    def _check_voicemail_thread(self):
+        cmd = f"curl -s -u {self.CGI_USER}:{self.CGI_PASS} http://{self.phone_ip}/CGI/LineInfo"
+        self.add_log("key_send", f"CURL: {cmd}")
+        try:
+            data, err = self.exec_cmd(cmd)
+            if data:
+                root = ET.fromstring(data.decode())
+                has_voicemail = any(mw.text == 'YES' for mw in root.iter('MessageWaiting'))
+                self.after(0, self._update_voicemail_ui, has_voicemail)
+            else:
+                self.add_log("error", "Failed to fetch LineInfo")
+        except Exception as e:
+            self.add_log("error", f"Voicemail check error: {e}")
+
+    def _update_voicemail_ui(self, has_voicemail):
+        if hasattr(self, 'voicemail_canvas') and self.voicemail_canvas:
+            if has_voicemail:
+                self.voicemail_canvas.itemconfig(self.circle_id, fill="red")
+            else:
+                self.voicemail_canvas.itemconfig(self.circle_id, fill="black")
 
     def toggle_logs(self):
         if self.log_extra_window is None or not self.log_extra_window.winfo_exists():

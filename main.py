@@ -43,7 +43,7 @@ if not os.path.exists(SSH_FILE):
         json.dump({"default": {"host": "127.0.0.1", "user": "admin", "pass": "password"}}, f, indent=4)
 if not os.path.exists(CGI_FILE):
     with open(CGI_FILE, 'w') as f: 
-        json.dump({"default": {"user": "admin_admin", "pass": "alka"}}, f, indent=4)
+        json.dump({"default": {"user": "admin", "pass": "admin"}}, f, indent=4)
 
 
 ssh_conf_path = os.path.join(config_dir, "ssh.conf")
@@ -343,8 +343,8 @@ class HomePage:
                 with open(cgi_conf_path, 'r') as f:
                     return json.load(f)
             except:
-                return {"default": {"user": "admin_admin", "pass": "alka"}}
-        return {"default": {"user": "admin_admin", "pass": "alka"}}
+                return {"default": {"user": "admin", "pass": "admin"}}
+        return {"default": {"user": "admin", "pass": "admin"}}
 
     def save_cgi_dict(self, configs):
         cgi_conf_path = os.path.join(self.config_dir, "cgi.conf")
