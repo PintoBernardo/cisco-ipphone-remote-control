@@ -21,6 +21,7 @@
     },
     "telephony_keys": {
         "HOLD": "Key:Hold",
+        "MUTE": "Key:Mute",
         "TRANSFER": "Key:Transfer",
         "CONFRN": "Key:Conference",
         "RELEASE": "Key:Release"
