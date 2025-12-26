@@ -69,21 +69,14 @@ class MultiFieldDialog:
         self.dialog.resizable(False, False)
         self.dialog.transient(parent)
         self.dialog.grab_set()
-        
-        tk.Label(self.dialog, text=title, bg="#121212", fg="#00d2ff", 
-                 font=("Segoe UI", 12, "bold")).pack(pady=(15, 10))
-        
+        tk.Label(self.dialog, text=title, bg="#121212", fg="#00d2ff", font=("Segoe UI", 12, "bold")).pack(pady=(15, 10))
         self.entries = {}
         if dropdowns is None:
             dropdowns = {}
-        
         for field_name, field_label, initial_value in fields:
             frame = tk.Frame(self.dialog, bg="#121212")
             frame.pack(fill="x", padx=20, pady=2)
-            
-            tk.Label(frame, text=field_label, bg="#121212", fg="#888", 
-                     font=("Segoe UI", 8, "bold")).pack(anchor="w")
-            
+            tk.Label(frame, text=field_label, bg="#121212", fg="#888", font=("Segoe UI", 8, "bold")).pack(anchor="w")
             if field_name in dropdowns:
                 # Create combobox for dropdown fields
                 combo = ttk.Combobox(frame, values=dropdowns[field_name], state="readonly", font=("Segoe UI", 10))
@@ -92,24 +85,16 @@ class MultiFieldDialog:
                 self.entries[field_name] = combo
             else:
                 # Create entry for text fields
-                entry = tk.Entry(frame, bg="#1e1e1e", fg="white", insertbackground="white",
-                                font=("Consolas", 10), borderwidth=0, highlightthickness=1, 
-                                highlightbackground="#444")
+                entry = tk.Entry(frame, bg="#1e1e1e", fg="white", insertbackground="white", font=("Consolas", 10), borderwidth=0, highlightthickness=1, highlightbackground="#444")
                 entry.insert(0, initial_value)
                 entry.pack(fill="x", pady=(2, 5), ipady=4)
                 self.entries[field_name] = entry
-        
         btn_frame = tk.Frame(self.dialog, bg="#121212")
         btn_frame.pack(fill="x", padx=20, pady=(10, 20))
-        
-        tk.Button(btn_frame, text="SAVE", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"),
-                  relief="flat", command=self.save).pack(side="left")
-        tk.Button(btn_frame, text="CANCEL", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"),
-                  relief="flat", command=self.cancel).pack(side="right")
-        
+        tk.Button(btn_frame, text="SAVE", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), relief="flat", command=self.save).pack(side="left")
+        tk.Button(btn_frame, text="CANCEL", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", command=self.cancel).pack(side="right")
         self.dialog.bind('<Return>', lambda e: self.save())
         self.dialog.bind('<Escape>', lambda e: self.cancel())
-        
         parent.wait_window(self.dialog)
     
     def save(self):
@@ -165,18 +150,15 @@ class HomePage:
         left_p.pack(side="left", fill="y", padx=(0, 40))
         left_p.pack_propagate(False) # Keep width consistent
 
-        tk.Label(left_p, text="REMOTE PHONE", bg="#121212", fg="#00d2ff", 
-                 font=("Segoe UI", 16, "bold")).pack(anchor="w")
-        tk.Label(left_p, text="Session parameters", bg="#121212", fg="#444", 
-                 font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(0, 20))
+        tk.Label(left_p, text="REMOTE PHONE", bg="#121212", fg="#00d2ff", font=("Segoe UI", 16, "bold")).pack(anchor="w")
+        tk.Label(left_p, text="Session parameters", bg="#121212", fg="#444", font=("Segoe UI", 9, "bold")).pack(anchor="w", pady=(0, 20))
 
         # Form Container
         form_f = tk.Frame(left_p, bg="#1e1e1e", padx=20, pady=25, highlightthickness=1, highlightbackground="#333")
         form_f.pack(fill="x")
         
         tk.Label(form_f, text="IP ADDRESS", bg="#1e1e1e", fg="#888", font=("Segoe UI", 7, "bold")).pack(anchor="w")
-        self.ip_entry = tk.Entry(form_f, bg="#121212", fg="white", insertbackground="white", 
-                                 font=("Consolas", 12), borderwidth=0, highlightthickness=1, highlightbackground="#444")
+        self.ip_entry = tk.Entry(form_f, bg="#121212", fg="white", insertbackground="white", font=("Consolas", 12), borderwidth=0, highlightthickness=1, highlightbackground="#444")
         self.ip_entry.insert(0, "0.0.0.0")
         self.ip_entry.pack(fill="x", pady=(5, 15), ipady=8)
         
@@ -190,12 +172,8 @@ class HomePage:
         mode_frame = tk.Frame(form_f, bg="#1e1e1e")
         mode_frame.pack(fill="x", pady=(5, 10))
         
-        tk.Radiobutton(mode_frame, text="SSH Bridge", variable=self.connection_mode, value="ssh", 
-                      bg="#1e1e1e", fg="#00d2ff", selectcolor="#121212", activebackground="#1e1e1e", 
-                      activeforeground="white", font=("Segoe UI", 9)).pack(side="left", padx=(0, 20))
-        tk.Radiobutton(mode_frame, text="Direct/Local", variable=self.connection_mode, value="local", 
-                      bg="#1e1e1e", fg="#888", selectcolor="#121212", activebackground="#1e1e1e", 
-                      activeforeground="white", font=("Segoe UI", 9)).pack(side="left")
+        tk.Radiobutton(mode_frame, text="SSH Bridge", variable=self.connection_mode, value="ssh", bg="#1e1e1e", fg="#00d2ff", selectcolor="#121212", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9)).pack(side="left", padx=(0, 20))
+        tk.Radiobutton(mode_frame, text="Direct/Local", variable=self.connection_mode, value="local", bg="#1e1e1e", fg="#888", selectcolor="#121212", activebackground="#1e1e1e", activeforeground="white", font=("Segoe UI", 9)).pack(side="left")
         
         tk.Label(form_f, text="SSH CONFIG", bg="#1e1e1e", fg="#888", font=("Segoe UI", 7, "bold")).pack(anchor="w")
         ssh_frame = tk.Frame(form_f, bg="#1e1e1e")
@@ -203,8 +181,7 @@ class HomePage:
         self.ssh_combo = ttk.Combobox(ssh_frame, values=self.load_ssh_configs(), state="readonly", font=("Segoe UI", 10))
         self.ssh_combo.set("default")
         self.ssh_combo.pack(side="left", fill="x", expand=True)
-        tk.Button(ssh_frame, text="⚙", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=self.open_ssh_manager).pack(side="right", padx=(5, 0))
+        tk.Button(ssh_frame, text="⚙", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", command=self.open_ssh_manager).pack(side="right", padx=(5, 0))
         
         tk.Label(form_f, text="CGI CONFIG", bg="#1e1e1e", fg="#888", font=("Segoe UI", 7, "bold")).pack(anchor="w")
         cgi_frame = tk.Frame(form_f, bg="#1e1e1e")
@@ -212,12 +189,10 @@ class HomePage:
         self.cgi_combo = ttk.Combobox(cgi_frame, values=self.load_cgi_configs(), state="readonly", font=("Segoe UI", 10))
         self.cgi_combo.set("default")
         self.cgi_combo.pack(side="left", fill="x", expand=True)
-        tk.Button(cgi_frame, text="⚙", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=self.open_cgi_manager).pack(side="right", padx=(5, 0))
+        tk.Button(cgi_frame, text="⚙", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", command=self.open_cgi_manager).pack(side="right", padx=(5, 0))
         
         def create_btn(parent, text, color, cmd, pady=10):
-            return tk.Button(parent, text=text, bg=color, fg="white", font=("Segoe UI", 10, "bold"),
-                             relief="flat", activebackground=color, cursor="hand2", command=cmd, pady=12)
+            return tk.Button(parent, text=text, bg=color, fg="white", font=("Segoe UI", 10, "bold"), relief="flat", activebackground=color, cursor="hand2", command=cmd, pady=12)
 
         create_btn(left_p, "START LIVE SESSION", "#27ae60", self.open_new_session).pack(fill="x", pady=(20, 10))
         create_btn(left_p, "SAVE TO PRESETS", "#2980b9", self.save_current_session).pack(fill="x")
@@ -233,17 +208,12 @@ class HomePage:
         tk.Label(head_f, text="PRESET DASHBOARD", bg="#121212", fg="#555", font=("Segoe UI", 10, "bold")).pack(side="left")
         
         # Management Bar (Mini buttons)
-        tk.Button(head_f, text="LOAD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", cursor="hand2", command=self.load_preset_to_form).pack(side="right", padx=5)
-        tk.Button(head_f, text="REMOVE", bg="#121212", fg="#c0392b", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", cursor="hand2", command=self.delete_session).pack(side="right", padx=5)
-        tk.Button(head_f, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", cursor="hand2", command=self.edit_preset).pack(side="right", padx=5)
+        tk.Button(head_f, text="LOAD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), relief="flat", cursor="hand2", command=self.load_preset_to_form).pack(side="right", padx=5)
+        tk.Button(head_f, text="REMOVE", bg="#121212", fg="#c0392b", font=("Segoe UI", 8, "bold"), relief="flat", cursor="hand2", command=self.delete_session).pack(side="right", padx=5)
+        tk.Button(head_f, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), relief="flat", cursor="hand2", command=self.edit_preset).pack(side="right", padx=5)
         tk.Label(head_f, text="|", bg="#121212", fg="#333").pack(side="right", padx=5)
-        tk.Button(head_f, text="▼ DN", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", cursor="hand2", command=lambda: self.move_preset(1)).pack(side="right", padx=2)
-        tk.Button(head_f, text="▲ UP", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", cursor="hand2", command=lambda: self.move_preset(-1)).pack(side="right", padx=2)
+        tk.Button(head_f, text="▼ DN", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", cursor="hand2", command=lambda: self.move_preset(1)).pack(side="right", padx=2)
+        tk.Button(head_f, text="▲ UP", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", cursor="hand2", command=lambda: self.move_preset(-1)).pack(side="right", padx=2)
 
         # Table Container
         tree_container = tk.Frame(right_p, bg="#1e1e1e", bd=0, highlightthickness=1, highlightbackground="#333")
@@ -378,15 +348,13 @@ class HomePage:
         
         manager.protocol("WM_DELETE_WINDOW", on_manager_close)
         
-        tk.Label(manager, text="SSH CONFIGURATIONS", bg="#121212", fg="#00d2ff", 
-                 font=("Segoe UI", 14, "bold")).pack(pady=10)
+        tk.Label(manager, text="SSH CONFIGURATIONS", bg="#121212", fg="#00d2ff", font=("Segoe UI", 14, "bold")).pack(pady=10)
         
         # Listbox for configs
         list_frame = tk.Frame(manager, bg="#1e1e1e", bd=1, relief="sunken")
         list_frame.pack(fill="both", expand=True, padx=20, pady=(0, 20))
         
-        self.ssh_listbox = tk.Listbox(list_frame, bg="#1e1e1e", fg="white", selectbackground="#2980b9", 
-                                      font=("Segoe UI", 10), selectmode="single")
+        self.ssh_listbox = tk.Listbox(list_frame, bg="#1e1e1e", fg="white", selectbackground="#2980b9", font=("Segoe UI", 10), selectmode="single")
         self.ssh_listbox.pack(fill="both", expand=True, padx=5, pady=5)
         
         self.refresh_ssh_list(manager)
@@ -395,15 +363,11 @@ class HomePage:
         btn_frame = tk.Frame(manager, bg="#121212")
         btn_frame.pack(fill="x", padx=20, pady=(0, 20))
         
-        tk.Button(btn_frame, text="ADD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.add_ssh_config(manager)).pack(side="left", padx=2)
-        tk.Button(btn_frame, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.edit_ssh_config(manager)).pack(side="left", padx=2)
-        tk.Button(btn_frame, text="DELETE", bg="#121212", fg="#e74c3c", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.delete_ssh_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="ADD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.add_ssh_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.edit_ssh_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="DELETE", bg="#121212", fg="#e74c3c", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.delete_ssh_config(manager)).pack(side="left", padx=2)
         
-        tk.Button(btn_frame, text="CLOSE", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=on_manager_close).pack(side="right", padx=2)
+        tk.Button(btn_frame, text="CLOSE", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", command=on_manager_close).pack(side="right", padx=2)
 
     def add_ssh_config(self, manager=None):
         fields = [
@@ -503,15 +467,13 @@ class HomePage:
         
         manager.protocol("WM_DELETE_WINDOW", on_manager_close)
         
-        tk.Label(manager, text="CGI CONFIGURATIONS", bg="#121212", fg="#00d2ff", 
-                 font=("Segoe UI", 14, "bold")).pack(pady=10)
+        tk.Label(manager, text="CGI CONFIGURATIONS", bg="#121212", fg="#00d2ff", font=("Segoe UI", 14, "bold")).pack(pady=10)
         
         # Listbox for configs
         list_frame = tk.Frame(manager, bg="#1e1e1e", bd=1, relief="sunken")
         list_frame.pack(fill="both", expand=True, padx=20, pady=(0, 20))
         
-        self.cgi_listbox = tk.Listbox(list_frame, bg="#1e1e1e", fg="white", selectbackground="#2980b9", 
-                                      font=("Segoe UI", 10), selectmode="single")
+        self.cgi_listbox = tk.Listbox(list_frame, bg="#1e1e1e", fg="white", selectbackground="#2980b9", font=("Segoe UI", 10), selectmode="single")
         self.cgi_listbox.pack(fill="both", expand=True, padx=5, pady=5)
         
         self.refresh_cgi_list(manager)
@@ -520,15 +482,10 @@ class HomePage:
         btn_frame = tk.Frame(manager, bg="#121212")
         btn_frame.pack(fill="x", padx=20, pady=(0, 20))
         
-        tk.Button(btn_frame, text="ADD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.add_cgi_config(manager)).pack(side="left", padx=2)
-        tk.Button(btn_frame, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.edit_cgi_config(manager)).pack(side="left", padx=2)
-        tk.Button(btn_frame, text="DELETE", bg="#121212", fg="#e74c3c", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=lambda: self.delete_cgi_config(manager)).pack(side="left", padx=2)
-        
-        tk.Button(btn_frame, text="CLOSE", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), 
-                  relief="flat", command=on_manager_close).pack(side="right", padx=2)
+        tk.Button(btn_frame, text="ADD", bg="#121212", fg="#27ae60", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.add_cgi_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="EDIT", bg="#121212", fg="#f39c12", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.edit_cgi_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="DELETE", bg="#121212", fg="#e74c3c", font=("Segoe UI", 8, "bold"), relief="flat", command=lambda: self.delete_cgi_config(manager)).pack(side="left", padx=2)
+        tk.Button(btn_frame, text="CLOSE", bg="#121212", fg="#7f8c8d", font=("Segoe UI", 8, "bold"), relief="flat", command=on_manager_close).pack(side="right", padx=2)
 
     def add_cgi_config(self, manager=None):
         fields = [
