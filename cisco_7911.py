@@ -41,8 +41,8 @@ class Cisco7911Phone(CiscoBasePhone):
             line_status_f, 
             text="●", 
             width=3, 
-            bg="#2a2a2a", 
-            fg="#27ae60", 
+            bg="#1a1a1a",
+            fg="#555555", 
             relief="flat", 
             font=("Segoe UI", 10, "bold"), 
             activebackground="#333", 
@@ -56,10 +56,12 @@ class Cisco7911Phone(CiscoBasePhone):
         # Softkeys
         skf = tk.Frame(self.main_container, bg="#121212")
         skf.pack(pady=5, fill="x")
-        for l, u in self.config.get('softkeys', {}).items():
-            tk.Button(skf, text=l.upper(), width=14, bg="#34495e", fg="#00d2ff", relief="flat", 
-                      font=("Segoe UI", 8, "bold"), activebackground="#2c3e50", 
-                      command=lambda x=u: self.press(x)).pack(side="left", padx=5, expand=True)
+        softkeys = self.config.get('softkeys', {})
+        for l, u in softkeys.items():
+            tk.Button(skf, text=l.upper(), width=14, bg="#34495e" if u else "#1a1a1a", 
+                      fg="#00d2ff" if u else "#555555", relief="flat", 
+                      font=("Segoe UI", 8, "bold"), activebackground="#2c3e50" if u else "#1a1a1a", 
+                      command=lambda x=u: self.press(x) if x else None).pack(side="left", padx=5, expand=True)
 
         # Dial/Control Section
         mid_f = tk.Frame(self.main_container, bg="#121212")
@@ -69,36 +71,57 @@ class Cisco7911Phone(CiscoBasePhone):
         # Apps & Hold
         cf = tk.Frame(mid_f, bg="#121212")
         cf.grid(row=0, column=0, padx=10)
-        tk.Button(cf, text="HOLD", width=12, bg="#d35400", fg="white", relief="flat", 
-                  font=("Segoe UI", 8, "bold"), activebackground="#c0392b",
-                  command=lambda: self.press(ak.get('HOLD'))).pack(pady=5)
-        tk.Button(cf, text="MENU", width=12, bg="#2c3e50", fg="white", relief="flat", 
-                  font=("Segoe UI", 8, "bold"), activebackground="#1e1e1e",
-                  command=lambda: self.press(ak.get('MENU'))).pack(pady=5)
+        
+        hold_uri = ak.get('HOLD')
+        tk.Button(cf, text="HOLD", width=12, bg="#d35400" if hold_uri else "#1a1a1a", 
+                  fg="white" if hold_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 8, "bold"), activebackground="#c0392b" if hold_uri else "#1a1a1a",
+                  command=lambda: self.press(hold_uri) if hold_uri else None).pack(pady=5)
+        
+        menu_uri = ak.get('MENU')
+        tk.Button(cf, text="MENU", width=12, bg="#2c3e50" if menu_uri else "#1a1a1a", 
+                  fg="white" if menu_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 8, "bold"), activebackground="#1e1e1e" if menu_uri else "#1a1a1a",
+                  command=lambda: self.press(menu_uri) if menu_uri else None).pack(pady=5)
 
         # Nav (Up/Down only for 7911)
         nf = tk.Frame(mid_f, bg="#121212")
         nf.grid(row=0, column=1, padx=10)
         nk = self.config.get('nav_keys', {})
-        tk.Button(nf, text="▲", width=6, bg="#333", fg="white", relief="flat", 
-                  font=("Segoe UI", 9, "bold"), activebackground="#444",
-                  command=lambda: self.press(nk.get('Up'))).pack()
-        tk.Button(nf, text="Select", width=6, bg="#2980b9", fg="white", relief="flat", 
-                  font=("Segoe UI", 9, "bold"), activebackground="#1e5a8a",
-                  command=lambda: self.press(nk.get('Select'))).pack(pady=2)
-        tk.Button(nf, text="▼", width=6, bg="#333", fg="white", relief="flat", 
-                  font=("Segoe UI", 9, "bold"), activebackground="#444",
-                  command=lambda: self.press(nk.get('Down'))).pack()
+        
+        up_uri = nk.get('Up')
+        tk.Button(nf, text="▲", width=6, bg="#333" if up_uri else "#1a1a1a", 
+                  fg="white" if up_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 9, "bold"), activebackground="#444" if up_uri else "#1a1a1a",
+                  command=lambda: self.press(up_uri) if up_uri else None).pack()
+        
+        select_uri = nk.get('Select')
+        tk.Button(nf, text="Select", width=6, bg="#2980b9" if select_uri else "#1a1a1a", 
+                  fg="white" if select_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 9, "bold"), activebackground="#1e5a8a" if select_uri else "#1a1a1a",
+                  command=lambda: self.press(select_uri) if select_uri else None).pack(pady=2)
+        
+        down_uri = nk.get('Down')
+        tk.Button(nf, text="▼", width=6, bg="#333" if down_uri else "#1a1a1a", 
+                  fg="white" if down_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 9, "bold"), activebackground="#444" if down_uri else "#1a1a1a",
+                  command=lambda: self.press(down_uri) if down_uri else None).pack()
 
         # Volume
         vf = tk.Frame(mid_f, bg="#121212")
         vf.grid(row=0, column=2, padx=10)
-        tk.Button(vf, text="VOL +", width=10, bg="#555", fg="white", relief="flat", 
-                  font=("Segoe UI", 8, "bold"), activebackground="#666",
-                  command=lambda: self.press(ak.get('VOL_UP'))).pack(pady=5)
-        tk.Button(vf, text="VOL -", width=10, bg="#555", fg="white", relief="flat", 
-                  font=("Segoe UI", 8, "bold"), activebackground="#666",
-                  command=lambda: self.press(ak.get('VOL_DOWN'))).pack(pady=5)
+        
+        vol_up_uri = ak.get('VOL_UP')
+        tk.Button(vf, text="VOL +", width=10, bg="#555" if vol_up_uri else "#1a1a1a", 
+                  fg="white" if vol_up_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 8, "bold"), activebackground="#666" if vol_up_uri else "#1a1a1a",
+                  command=lambda: self.press(vol_up_uri) if vol_up_uri else None).pack(pady=5)
+        
+        vol_down_uri = ak.get('VOL_DOWN')
+        tk.Button(vf, text="VOL -", width=10, bg="#555" if vol_down_uri else "#1a1a1a", 
+                  fg="white" if vol_down_uri else "#555555", relief="flat", 
+                  font=("Segoe UI", 8, "bold"), activebackground="#666" if vol_down_uri else "#1a1a1a",
+                  command=lambda: self.press(vol_down_uri) if vol_down_uri else None).pack(pady=5)
 
         # Keypad
         kf = tk.Frame(self.main_container, bg="#121212")
@@ -106,9 +129,11 @@ class Cisco7911Phone(CiscoBasePhone):
         kd = self.config.get('keypad', {})
         for r, row in enumerate([["1","2","3"], ["4","5","6"], ["7","8","9"], ["*","0","#"]]):
             for c, val in enumerate(row):
-                tk.Button(kf, text=val, width=6, bg="#2a2a2a", fg="white", relief="flat", 
-                          font=("Segoe UI", 10), activebackground="#444",
-                          command=lambda u=kd.get(val): self.press(u)).grid(row=r, column=c, padx=2, pady=2)
+                uri = kd.get(val)
+                tk.Button(kf, text=val, width=6, bg="#2a2a2a" if uri else "#1a1a1a", 
+                          fg="white" if uri else "#555555", relief="flat", 
+                          font=("Segoe UI", 10), activebackground="#444" if uri else "#1a1a1a",
+                          command=lambda u=uri: self.press(u) if u else None).grid(row=r, column=c, padx=2, pady=2)
 
         # Footer
         ff = tk.Frame(self.main_container, bg="#1e1e1e")

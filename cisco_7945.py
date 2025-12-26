@@ -26,7 +26,7 @@ class Cisco7945Phone(CiscoBasePhone):
         lk_f = tk.Frame(top_f, bg="#121212")
         lk_f.grid(row=0, column=2, padx=5)
         for l, u in self.config.get('line_keys', {}).items():
-            button = tk.Button(lk_f, text="●", width=3, bg="#2a2a2a", fg="#27ae60", relief="flat", 
+            button = tk.Button(lk_f, text="●", width=3, bg="#1a1a1a", fg="#555555", relief="flat", 
                               activebackground="#333", font=("Segoe UI", 10, "bold"),
                               command=lambda x=u: self.press(x), pady=7)
             button.pack(pady=15)

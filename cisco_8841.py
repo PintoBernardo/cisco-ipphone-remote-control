@@ -28,7 +28,7 @@ class Cisco8841Phone(CiscoBasePhone):
             button_text = "●"
             button_command = lambda x=uri: self.press(x) if x else None
 
-            button = tk.Button(lk_l, text=button_text, width=3, bg="#2a2a2a", fg="#27ae60", 
+            button = tk.Button(lk_l, text=button_text, width=3, bg="#1a1a1a", fg="#555555", 
                               relief="flat", activebackground="#333", font=("Segoe UI", 10, "bold"),
                               command=button_command, pady=7)
             button.pack(pady=10)
@@ -53,7 +53,7 @@ class Cisco8841Phone(CiscoBasePhone):
             button_text = "●"
             button_command = lambda x=uri: self.press(x) if x else None
 
-            button = tk.Button(lk_r, text=button_text, width=3, bg="#2a2a2a", fg="#27ae60", 
+            button = tk.Button(lk_r, text=button_text, width=3, bg="#1a1a1a", fg="#555555", 
                               relief="flat", activebackground="#333", font=("Segoe UI", 10, "bold"),
                               command=button_command, pady=7)
             button.pack(pady=10)
@@ -89,21 +89,22 @@ class Cisco8841Phone(CiscoBasePhone):
         af = tk.Frame(lower_f, bg="#121212")
         af.grid(row=0, column=0, padx=20)
         
-        # Get MESSAGES from telephony_keys
-        messages_uri = telephony_keys.get('MESSAGES') or telephony_keys.get('Messages')
+        # Get MESSAGES from app_keys (the physical button)
+        app_keys = self.config.get('app_keys', {})
+        messages_uri = app_keys.get('MESSAGES') or app_keys.get('Messages')
         
         current_row = 0
         
-        # If MESSAGES button URI found, create it on top spanning 2 columns
+        # Create MESSAGES button on top spanning 2 columns
         if messages_uri:
             tk.Button(af, text="MESSAGES", width=25, bg="#2c3e50", fg="white", font=("Segoe UI", 8, "bold"), 
                       relief="flat", activebackground="#1e1e1e",
                       command=lambda: self.press(messages_uri)).grid(row=current_row, column=0, columnspan=2, padx=3, pady=3)
             current_row = 1
         
-        # Then add the rest of app keys in 2 columns below (exclude MESSAGES if it exists there too)
+        # Then add the rest of app keys in 2 columns below
         excluded = ["BACK", "VOL_UP", "VOL_DOWN", "MESSAGES"]
-        app_items = [(l, u) for l, u in self.config.get('app_keys', {}).items() if l.upper() not in excluded]
+        app_items = [(l, u) for l, u in app_keys.items() if l.upper() not in excluded]
         
         for i, (l, u) in enumerate(app_items):
             col = i % 2

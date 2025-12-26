@@ -44,18 +44,18 @@ class CiscoBasePhone(tk.Toplevel):
         self.circle_id = None
         
         self.LINE_STATE_COLORS = {
-            "IDLE": ("gray", "black"),
-            "INACTIVE": ("gray", "black"),
-            "ONHOOK": ("gray", "black"),
-            "RINGING": ("orange", "black"),
-            "CONNECTED": ("green", "white"),
-            "ONHOLD": ("#add8e6", "black"),
-            "REMOTELY_IN_USE": ("red", "white"),
-            "REGISTERING": ("orange", "black"),
-            "BLF_UNKNOWN": ("dark gray", "white"),
-            "BLF_BUSY": ("red", "white"),
-            "OFFHOOK": ("green", "white"),
-            "UNKNOWN": ("dark gray", "white")
+            "IDLE": ("#1a1a1a", "#555555"),
+            "INACTIVE": ("#1a1a1a", "#555555"),
+            "ONHOOK": ("#1a1a1a", "#555555"),
+            "RINGING": ("#ff6b00", "white"),
+            "CONNECTED": ("#00ff00", "black"),
+            "ONHOLD": ("#ffff00", "black"),
+            "REMOTELY_IN_USE": ("#ff0000", "white"),
+            "REGISTERING": ("#ff6b00", "white"),
+            "BLF_UNKNOWN": ("#1a1a1a", "#555555"),
+            "BLF_BUSY": ("#ff0000", "white"),
+            "OFFHOOK": ("#00ff00", "black"),
+            "UNKNOWN": ("#1a1a1a", "#555555")
         }
         
         self.config_file = os.path.join(get_config_dir(), f"keys_{device_type}.json")
@@ -225,10 +225,29 @@ class CiscoBasePhone(tk.Toplevel):
         self.add_log("system", f"Connecting to SSH Host: {self.SSH_HOST} (Profile: {self.ssh_config_name})...")
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        try: 
-            self.ssh.connect(self.SSH_HOST, username=self.SSH_USER, password=self.SSH_PASS, timeout=15)
+        
+        try:
+            # Use banner_timeout and auth_timeout to prevent hanging
+            self.ssh.connect(
+                self.SSH_HOST, 
+                username=self.SSH_USER, 
+                password=self.SSH_PASS, 
+                timeout=10,
+                banner_timeout=10,
+                auth_timeout=10,
+                look_for_keys=False,
+                allow_agent=False
+            )
             self.add_log("system", "SSH Connection Established")
             return True
+        except paramiko.AuthenticationException:
+            self.add_log("error", "SSH Authentication Failed - Check username/password")
+            messagebox.showerror("SSH Authentication Error", f"Failed to authenticate to SSH bridge: {self.ssh_config_name}\n\nPlease check your username and password in the SSH configuration.")
+            return False
+        except paramiko.SSHException as e:
+            self.add_log("error", f"SSH Error: {e}")
+            messagebox.showerror("SSH Error", f"SSH connection error: {str(e)}")
+            return False
         except Exception as e: 
             self.add_log("error", f"SSH Connection Failed: {e}")
             messagebox.showerror("SSH Connection Error", f"Failed to connect to SSH bridge: {self.ssh_config_name}\n\nError: {str(e)}")
